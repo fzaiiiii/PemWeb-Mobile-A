@@ -1,47 +1,43 @@
+<?php
+require("koneksi.php");
+$data = mysqli_query($kon, "SELECT * FROM pegawai");
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Anggota Keluarga</title>
+    <title>Modul 3</title>
 </head>
 <body>
+    <h3>Daftar Data Pegawai</h3>
+    <a href="penyimpanan.php">Tambah Data</a>
 
-<?php foreach ($anggota_keluarga = ["Papah", "Mamah", "Abang", "Adek","Firdaus Zailani"] as $ak){ ?>
-<br>Nama: <?= $ak; ?>
-<br>Jumlah kata: <?= str_word_count($ak) ?>
-<br>Jumlah huruf: <?= strlen($ak) ?>
-<br>Kebalikan nama: <?= strrev($ak) ?> <br>
+    <table border="1px">
+    <tr>
+        <th>ID Pegawai</th>
+        <th>Nama</th>
+        <th>Tempat Tanggal Lahir</th>
+        <th>Alamat</th>
+        <th>Gaji</th>
+    </tr>
 
-<?php
-$teks_awal = trim($ak); //buang spasi di awal dan akhir kalimat.
-$teks_modif = strtolower($teks_awal); //ganti kalimat menjadi huruf kecil semua
-$teks=str_replace(' ','',$teks_modif); //buang spasi yang ada di tengah kata
-$jumlah = strlen($teks); //menghitung jumlah karakter pada variable $teks
-
-//substr_count adalah fungsi menghitung jumlah huruf/kalimat
-$a = substr_count($teks, "a"); //hitung jumlah huruf “a”
-$i = substr_count($teks, "i"); //hitung jumlah huruf “i”
-$u = substr_count($teks, "u"); //hitung jumlah huruf “u”
-$e = substr_count($teks, "e"); //hitung jumlah huruf “e”
-$o = substr_count($teks, "o"); //hitung jumlah huruf “o”
-
-$vocal = $a+$i+$u+$e+$o; //hitung total jumlah huruf vocal
-$konsonan = $jumlah - $vocal;
-
-echo "Kalimat \"".$teks_awal."\" memiliki :" ."<br>";
-
-echo "Jumlah karakter = $jumlah "."<br>";
-
-echo "jumlah huruf vocal = $vocal "."<br>";
-
-echo "Jumlah huruf kosonan = $konsonan"."<br>";
-
-?>
-
-<br>
-<?php }
-
-?>
-
-
+    <?php while($row = mysqli_fetch_assoc($data)){ ?>
+    <tr>
+        <td><?php echo $row['id'] ?></td>
+        <td><?php echo $row['nama'] ?></td>
+        <td><?php echo $row['ttl'] ?></td>
+        <td><?php echo $row['alamat'] ?></td>
+        <td><?php echo $row['gaji'] ?></td>
+        <td>
+            <a href="update.php?id=<?php echo $row['id']; ?>">Edit</a> | 
+            <a href="delete.php?id=<?php echo $row['id']; ?>">Hapus</a>
+        </td>
+    </tr>
+    <?php
+    } // end while
+    
+    mysqli_close($kon); // menutup koneksi ke database
+    ?>
+    </table>
 </body>
 </html>
