@@ -3,8 +3,7 @@
 $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = '';
-$dbname = 'perpustakaan';
-
+$dbname = 'pemilu';
 $koneksi = new mysqli($dbhost,$dbuser,$dbpass,$dbname);
 
 if ($koneksi->connect_error) 
